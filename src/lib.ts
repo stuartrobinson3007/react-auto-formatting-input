@@ -2,7 +2,7 @@ import {
   SelectionPattern,
   SelectionPatternWithIndexes,
   Pattern,
-} from "./types";
+} from './types';
 
 export function assignIndexesToPattern(
   pattern: SelectionPattern[]
@@ -13,7 +13,7 @@ export function assignIndexesToPattern(
     let start = index;
     let end = index;
 
-    if ("insertCharCount" in item) {
+    if ('insertCharCount' in item) {
       index += item.insertCharCount;
       end = index;
     } else {
@@ -47,11 +47,11 @@ export function getPatternLength(pattern: Pattern[]): {
     let length = 0;
 
     for (const item of pattern) {
-      if ("insert" in item) {
+      if ('insert' in item) {
         // Only if we're counting the inserts, add the length of the insert to the total length
-        console.log("item.insert.length", item.insert.length);
+        console.log('item.insert.length', item.insert.length);
         if (countInserts) length += item.insert.length;
-      } else if ("repeat" in item) {
+      } else if ('repeat' in item) {
         // If the repeat times is -1, we will repeat the pattern indefinitely so the length is infinite
         if (item.repeat.times === -1) {
           return -1;
@@ -66,7 +66,7 @@ export function getPatternLength(pattern: Pattern[]): {
           (countInserts
             ? _patternLength.formattedLength
             : _patternLength.unformattedLength) * item.repeat.times;
-      } else if ("backwards" in item) {
+      } else if ('backwards' in item) {
         const _patternLength = getPatternLength(item.backwards.pattern);
 
         // Note: If we want nested backwards patterns to work, this getPatternLength call would need to be adjusted to account for breakChar
@@ -82,7 +82,7 @@ export function getPatternLength(pattern: Pattern[]): {
         length += item.quantity;
       }
 
-      console.log("length", length);
+      console.log('length', length);
 
       // If we're counting the inserts, break the loop once we've reached the end of the unformatted length
       if (unformattedLength !== -1 && length > unformattedLength) {
@@ -113,8 +113,8 @@ export function format(
   newValue: string;
   selectPattern: SelectionPattern[];
 } {
-  let formattedValue = "";
-  let newValue = "";
+  let formattedValue = '';
+  let newValue = '';
   let inputIndex = 0;
 
   const selectPattern = [] as SelectionPattern[];
@@ -132,8 +132,8 @@ export function format(
       repeat: 0,
     }
   ) => {
-    let _formattedValue = "";
-    let _newValue = "";
+    let _formattedValue = '';
+    let _newValue = '';
     let _rawValue = rawValue;
 
     const _selectPattern = [] as SelectionPattern[];
@@ -150,13 +150,13 @@ export function format(
 
     // If we're going backwards, reverse the raw value so the pattern gets applied backwards (then we reverse the value back at the end)
     if (options.backwards) {
-      _rawValue = rawValue.split("").reverse().join("");
+      _rawValue = rawValue.split('').reverse().join('');
     }
 
     for (let i = 0; i < pattern.length; i++) {
       const item = pattern[i];
 
-      if ("backwards" in item) {
+      if ('backwards' in item) {
         // To handle the backwards pattern, we need to know how much of the raw value to pass into the handlePattern function
         // This could either be by finding the length of the pattern or by finding the index of a break character
 
@@ -212,12 +212,12 @@ export function format(
             valueCharCount: breakChar.length,
           });
         }
-      } else if ("repeat" in item) {
+      } else if ('repeat' in item) {
         handlePattern(rawValue, item.repeat.pattern, {
           ...options,
           repeat: item.repeat.times,
         });
-      } else if ("insert" in item) {
+      } else if ('insert' in item) {
         if (addingAdditionalInserts && !item.before) {
           // If we've reached the end of the user input, but we're doing a check for inserts that should be inserted after the user input, if this insert is not tagged as "before", then it should only be inserted after the user types the next character, not now, so we break
           break;
@@ -292,8 +292,8 @@ export function format(
 
     // Reverse the formatted value and new value if we're going backwards so they're back in the correct order
     if (options.backwards) {
-      _formattedValue = _formattedValue.split("").reverse().join("");
-      _newValue = _newValue.split("").reverse().join("");
+      _formattedValue = _formattedValue.split('').reverse().join('');
+      _newValue = _newValue.split('').reverse().join('');
       _selectPattern.reverse();
 
       formattedValue += _formattedValue;
@@ -310,7 +310,7 @@ export function format(
     selectPattern.push(..._selectPattern);
   };
 
-  handlePattern(rawValue, pattern);
+  if (rawValue.length > 0) handlePattern(rawValue, pattern);
 
   return { formattedValue, newValue, selectPattern };
 }
@@ -334,7 +334,7 @@ export function getSelectionWithoutFormatting(
   // Break the loop when the index is greater than the end value
 
   for (const item of selectPattern) {
-    if ("insertCharCount" in item) {
+    if ('insertCharCount' in item) {
       const increment = Math.min(item.insertCharCount, end - index);
       endOffset += increment;
 
@@ -371,16 +371,16 @@ export function getSelectionWithoutFormatting(
 export const findNextNonInsertPattern = (
   patternsWithIndexes: SelectionPatternWithIndexes[],
   index: number,
-  startDirection: "backward" | "forward",
+  startDirection: 'backward' | 'forward',
   attemptReverse = true
 ): SelectionPatternWithIndexes | null => {
-  const increment = startDirection === "backward" ? -1 : 1;
+  const increment = startDirection === 'backward' ? -1 : 1;
   let currentIndex = index + increment;
 
   while (currentIndex >= 0 && currentIndex < patternsWithIndexes.length) {
     const element = patternsWithIndexes[currentIndex];
 
-    if ("insert" in element) {
+    if ('insert' in element) {
       currentIndex += increment;
     } else {
       return patternsWithIndexes[currentIndex];
@@ -391,7 +391,7 @@ export const findNextNonInsertPattern = (
     return findNextNonInsertPattern(
       patternsWithIndexes,
       currentIndex,
-      startDirection === "backward" ? "forward" : "backward",
+      startDirection === 'backward' ? 'forward' : 'backward',
       false
     );
   }
@@ -401,7 +401,7 @@ export const findNextNonInsertPattern = (
 export function getIndexWithFormatting(
   index: number,
   patternsWithIndexes: SelectionPatternWithIndexes[],
-  direction: "forward" | "backward" = "forward"
+  direction: 'forward' | 'backward' = 'forward'
 ) {
   let offset = 0;
 
@@ -410,7 +410,7 @@ export function getIndexWithFormatting(
   for (let i = 0; i < patternsWithIndexes.length; i++) {
     const pattern = patternsWithIndexes[i].pattern;
 
-    if ("insertCharCount" in pattern) {
+    if ('insertCharCount' in pattern) {
       const increment = pattern.insertCharCount;
 
       offset += increment;
@@ -421,14 +421,14 @@ export function getIndexWithFormatting(
 
       // If the direction is forward and we're at the end of the quantity, add any of the next inserts until we reach another quantity
       if (
-        direction === "forward" &&
+        direction === 'forward' &&
         index - count === pattern.valueCharCount &&
         i < patternsWithIndexes.length - 1
       ) {
         const nextNonInsert = findNextNonInsertPattern(
           patternsWithIndexes,
           i + 1,
-          "forward"
+          'forward'
         );
 
         if (nextNonInsert) {
@@ -450,7 +450,7 @@ export function getIndexWithFormatting(
 export function checkForNestedBackwardsPattern(pattern: Pattern[]): boolean {
   const handleCheck = (pattern: Pattern[], count: number) => {
     for (const item of pattern) {
-      if ("backwards" in item) {
+      if ('backwards' in item) {
         count++;
 
         if (count > 1) {
@@ -458,7 +458,7 @@ export function checkForNestedBackwardsPattern(pattern: Pattern[]): boolean {
         }
 
         handleCheck(item.backwards.pattern, count);
-      } else if ("repeat" in item) {
+      } else if ('repeat' in item) {
         handleCheck(item.repeat.pattern, count);
       }
     }
@@ -474,13 +474,13 @@ export function checkForMultiCharacterBreakChars(pattern: Pattern[]): boolean {
 
   const handleCheck = (pattern: Pattern[]) => {
     for (const item of pattern) {
-      if ("backwards" in item) {
+      if ('backwards' in item) {
         if (item.backwards.breakChar.length > 1) {
           breakCharCount++;
         }
 
         handleCheck(item.backwards.pattern);
-      } else if ("repeat" in item) {
+      } else if ('repeat' in item) {
         handleCheck(item.repeat.pattern);
       }
     }
@@ -492,5 +492,8 @@ export function checkForMultiCharacterBreakChars(pattern: Pattern[]): boolean {
 }
 
 export function regexFilter(value: string, regex: RegExp): string {
-  return value.replace(new RegExp(`[^${regex.source}]`, "g"), "");
+  return value
+    .split('')
+    .filter((char) => regex.test(char))
+    .join('');
 }
