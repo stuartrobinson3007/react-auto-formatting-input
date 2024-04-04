@@ -1,6 +1,6 @@
 {
   "name": "react-auto-formatting-input",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A React input with customizable pattern rules to auto format the user input.",
   "directories": {
     "test": "test"
