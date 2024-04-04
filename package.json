@@ -24,7 +24,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts",
+    "start": "tsup --watch",
+    "build": "tsup",
     "test": "vitest"
   },
   "husky": {
