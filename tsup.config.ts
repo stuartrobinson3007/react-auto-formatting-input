@@ -1,11 +1,22 @@
-import { defineConfig } from 'tsup';
+import { defineConfig, Options } from 'tsup';
 
-export default defineConfig({
+const commonConfig: Options = {
   minify: true,
-  target: 'es2018',
-  external: ['react'],
-  sourcemap: true,
   dts: true,
   format: ['esm', 'cjs'],
-  injectStyle: true,
-});
+  sourcemap: true,
+  clean: true,
+};
+export default defineConfig([
+  {
+    ...commonConfig,
+    esbuildOptions: (options) => {
+      // Append "use client" to the top of the react entry point
+      options.banner = {
+        js: '"use client";',
+      };
+    },
+    entry: ['src/index.ts'],
+    outDir: 'dist',
+  },
+]);
