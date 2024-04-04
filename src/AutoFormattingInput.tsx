@@ -36,14 +36,7 @@ const AutoFormattingInput = forwardRef<
   AutoFormattingInputProps
 >(
   (
-    {
-      pattern,
-      type,
-      value: userValue,
-      onValueChange,
-      hiddenInputProps,
-      ...props
-    },
+    { pattern, type, value, onValueChange, hiddenInputProps, ...props },
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     if (checkForNestedBackwardsPattern(pattern)) {
@@ -58,8 +51,12 @@ const AutoFormattingInput = forwardRef<
       );
     }
 
-    const [value, setValue] = useState('');
     const [formattedValue, setFormattedValue] = useState('');
+
+    useEffect(() => {
+      const formatResult = format(value, pattern);
+      setFormattedValue(formatResult.formattedValue);
+    }, [value, pattern]);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -131,7 +128,7 @@ const AutoFormattingInput = forwardRef<
 
       const formatResult = format(newValue, pattern);
       setFormattedValue(formatResult.formattedValue);
-      setValue(formatResult.newValue);
+      // setValue(formatResult.newValue);
       onValueChange(formatResult.newValue);
 
       selectionPattern.current = formatResult.selectPattern;
