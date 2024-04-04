@@ -1,0 +1,63 @@
+{
+  "name": "react-auto-formatting-input",
+  "version": "1.0.0",
+  "description": "A React input with customizable pattern rules to auto format the user input.",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "react",
+    "input",
+    "format"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "test": "vitest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "prettier src --ignore-unknown --write"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "always",
+    "trailingComma": "es5"
+  },
+  "author": "Stuart Robinson",
+  "license": "MIT",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.12",
+    "happy-dom": "^14.3.10",
+    "husky": "^9.0.11",
+    "prettier": "3.2.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsup": "^8.0.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
+  },
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16"
+  }
+}
