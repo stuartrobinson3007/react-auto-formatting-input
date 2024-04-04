@@ -37,19 +37,20 @@ type InputProps = Omit<
 const Block = ({
   title,
   example,
-  type,
   pattern,
   inputProps,
   showPatterns,
+  type,
 }: {
   title: string;
   example: string;
-  type: InputType;
+  type: InputType | RegExp;
   pattern: Pattern[];
   inputProps?: InputProps;
   showPatterns: boolean;
 }) => {
   const [value, setValue] = useState('');
+
   return (
     <div className="bg-white border border-zinc-200 rounded-xl p-6 w-full">
       <label className="font-bold" htmlFor="title">
@@ -62,6 +63,7 @@ const Block = ({
         pattern={pattern}
         type={type}
         name="title"
+        placeholder={example}
         className="border border-zinc-200 rounded p-2 w-full mt-3"
         {...inputProps}
       />
@@ -136,7 +138,7 @@ export default function Home() {
           title="Custom Pattern"
           example="AB1 # XY2 // 1234"
           pattern={customPattern}
-          type="string"
+          type={/[a-zA-Z0-9]+/}
           showPatterns={showPatterns}
         />
       </div>

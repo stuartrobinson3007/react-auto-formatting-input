@@ -57,6 +57,8 @@ const App = () => {
 
 The `AutoFormattingInput` component accepts a pattern prop, which defines the formatting rules for the input field. This pattern prop allows you to customize how the input value is displayed to the user.
 
+### Type / Regex
+
 ### Predefined Patterns
 
 The package provides several predefined patterns for common formatting tasks. These patterns can be imported and used directly in your application without the need for custom configuration.
