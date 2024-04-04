@@ -9,7 +9,7 @@ import AutoFormattingInput, {
   CurrencyPattern,
   DatePattern,
   ZipCodePattern,
-} from '../../src';
+} from 'react-auto-formatting-input';
 
 const customPattern = [
   {
