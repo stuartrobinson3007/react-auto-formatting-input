@@ -45,7 +45,7 @@ const App = () => {
       value={value}
       onValueChange={setValue}
       pattern={PhonePattern}
-      type={'int'}
+      type="int"
     />
   );
 };
@@ -57,7 +57,16 @@ const App = () => {
 
 The `AutoFormattingInput` component accepts a pattern prop, which defines the formatting rules for the input field. This pattern prop allows you to customize how the input value is displayed to the user.
 
-### Type / Regex
+### Type
+
+The `type` prop of the `AutoFormattingInput` component determines the validation rules for the input field. It can be one of the following predefined types or a custom regular expression:
+
+- **int**: Accepts only integer values.
+- **float**: Accepts floating-point numbers.
+- **string**: Accepts any character, including whitespace.
+- **alpha**: Accepts alphabetic characters only.
+- **alphanumeric**: Accepts alphanumeric characters only.
+- **Custom Regex**: You can also define a custom regular expression to validate the input.
 
 ### Predefined Patterns
 
