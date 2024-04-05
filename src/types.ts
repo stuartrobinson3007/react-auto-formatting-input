@@ -6,7 +6,7 @@ export const typeDict = {
     regex: /[0-9.]+/g,
   },
   string: {
-    regex: undefined,
+    regex: /./g,
   },
   alpha: {
     regex: /[a-zA-Z]+/g,

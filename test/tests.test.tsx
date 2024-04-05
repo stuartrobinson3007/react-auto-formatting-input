@@ -40,6 +40,17 @@ describe('regexFilter', () => {
     expect(result).toBe(expectedOutput);
   });
 
+  it('Filters nothing from 1!@2#$3a%^', () => {
+    const regex = typeDict['string'].regex;
+
+    const input = '1!@2#$3a%^';
+    const expectedOutput = '1!@2#$3a%^';
+
+    const result = regexFilter(input, regex);
+
+    expect(result).toBe(expectedOutput);
+  });
+
   it('Filters letters from float', () => {
     const regex = typeDict['float'].regex;
 
