@@ -3,13 +3,48 @@ import { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import AutoFormattingInput from '../src/AutoFormattingInput';
 import { regexFilter, assignIndexesToPattern } from '../src/lib';
+import { CurrencyPattern } from '../src';
+import { typeDict } from '../src/types';
 
 describe('regexFilter', () => {
   it('Filters letters from 1a2b3c', () => {
-    const regex = /\d+/;
+    const regex = typeDict['int'].regex;
 
     const input = '1a2b3c';
     const expectedOutput = '123';
+
+    const result = regexFilter(input, regex);
+
+    expect(result).toBe(expectedOutput);
+  });
+
+  it('Filters symbols from 1!@2#$3a%^', () => {
+    const regex = typeDict['alphanumeric'].regex;
+
+    const input = '1!@2#$3a%^';
+    const expectedOutput = '123a';
+
+    const result = regexFilter(input, regex);
+
+    expect(result).toBe(expectedOutput);
+  });
+
+  it('Filters symbols and numbers from 1!@2#$3a%^', () => {
+    const regex = typeDict['alpha'].regex;
+
+    const input = '1!@2#$3a%^';
+    const expectedOutput = 'a';
+
+    const result = regexFilter(input, regex);
+
+    expect(result).toBe(expectedOutput);
+  });
+
+  it('Filters letters from float', () => {
+    const regex = typeDict['float'].regex;
+
+    const input = '123a.234';
+    const expectedOutput = '123.234';
 
     const result = regexFilter(input, regex);
 
@@ -314,42 +349,14 @@ describe('Basic pattern', () => {
 });
 
 describe('Currency', () => {
-  const pattern = [
-    {
-      backwards: {
-        pattern: [
-          {
-            repeat: {
-              pattern: [
-                {
-                  quantity: 3,
-                },
-                {
-                  insert: ',',
-                },
-              ],
-              times: -1,
-            },
-          },
-          {
-            quantity: 3,
-          },
-        ],
-        breakChar: '.',
-      },
-    },
-    {
-      quantity: 2,
-    },
-  ];
-
   const TestComponent = ({ ...props }) => {
     const [value, setValue] = useState('');
 
     return (
       <AutoFormattingInput
-        pattern={pattern}
+        pattern={CurrencyPattern}
         value={value}
+        type="float"
         onValueChange={setValue}
         {...props}
       />

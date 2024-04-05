@@ -1,18 +1,18 @@
 export const typeDict = {
   int: {
-    regex: /\d+/,
+    regex: /[0-9]+/g,
   },
   float: {
-    regex: /\d+\.\d+/,
+    regex: /[0-9.]+/g,
   },
   string: {
-    regex: /[\s\S]*/,
+    regex: undefined,
   },
   alpha: {
-    regex: /[a-zA-Z]+/,
+    regex: /[a-zA-Z]+/g,
   },
   alphanumeric: {
-    regex: /[a-zA-Z0-9]+/,
+    regex: /[a-zA-Z0-9]+/g,
   },
 };
 

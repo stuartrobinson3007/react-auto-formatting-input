@@ -492,8 +492,6 @@ export function checkForMultiCharacterBreakChars(pattern: Pattern[]): boolean {
 }
 
 export function regexFilter(value: string, regex: RegExp): string {
-  return value
-    .split('')
-    .filter((char) => regex.test(char))
-    .join('');
+  const matches = value.match(regex);
+  return matches ? matches.join('') : '';
 }
